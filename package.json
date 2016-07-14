@@ -26,7 +26,7 @@
   "engines": {
     "node": ">=6.0.0"
   },
-  "main": "index.js",
+  "main": "./app/main.js",
   "scripts": {
     "build": "node ./lib/build.js -- ",
     "test": "echo \"Error: no test specified\" && exit 1"
