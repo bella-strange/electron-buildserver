@@ -1,14 +1,14 @@
 git:
-  depth: 10
+  depth: 5
 
 branches:
   only:
-    - deploy
+    - master
 
 os:
   - osx
 
-sudo: true
+sudo: false
 
 language: ruby
 
