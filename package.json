@@ -1,0 +1,51 @@
+{
+  "name": "electron-buildserver",
+  "version": "0.0.1",
+  "description": "Build Electron apps in the cloud",
+  "license": "MIT",
+  "author": {
+    "name": "bella-strange",
+    "email": "bella.gleich@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bella-strange/electron-buildserver.git"
+  },
+  "bugs": {
+    "url": "https://github.com/bella-strange/electron-buildserver/issues"
+  },
+  "keywords": [
+    "electron",
+    "travis"
+  ],
+  "os": [
+    "darwin",
+    "win32",
+    "linux"
+  ],
+  "engines": {
+    "node": ">=6.0.0"
+  },
+  "main": "index.js",
+  "scripts": {
+    "build": "node ./lib/build.js -- ",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "build": {
+    "platforms": [
+      "darwin",
+      "win32",
+      "linux"
+    ],
+    "electronVersion": "1.2.7",
+    "productName": "Demo Desktop",
+    "productDescription": "Demo for the Desktop",
+    "id": "org.demo.desktop",
+    "company": "Demo Inc.",
+    "category": "public.app-category.utilities",
+    "iconUrl": "https://github.com/bella-strange/electron-buildserver/raw/master/icons/win32/icon-app.ico",
+    "directoryCache": "build/cache",
+    "directoryStaging": "build/staging",
+    "directoryRelease": "build/release"
+  }
+}
