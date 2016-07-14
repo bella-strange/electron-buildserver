@@ -1,0 +1,66 @@
+git:
+  depth: 10
+
+branches:
+  only:
+    - deploy
+
+os:
+  - osx
+
+sudo: true
+
+language: ruby
+
+cache:
+  directories:
+    - build/cache
+    - node_modules
+    - $HOME/Library/Caches/Homebrew
+    - /usr/local/Cellar 
+
+rvm:
+  - 2.2.3
+
+before_install:
+  # Homebrew
+  - brew update
+  - brew upgrade
+  # electron-downloader (github.com/electron/electron/releases)
+  - mkdir -p ./build/cache/
+  - curl -L https://github.com/electron/electron/releases/download/v1.2.7/electron-v1.2.7-darwin-x64.zip > ./build/cache/electron-v1.2.7-darwin-x64.zip
+  - curl -L https://github.com/electron/electron/releases/download/v1.2.7/electron-v1.2.7-win32-ia32.zip > ./build/cache/electron-v1.2.7-win32-ia32.zip
+  - curl -L https://github.com/electron/electron/releases/download/v1.2.7/electron-v1.2.7-win32-x64.zip > ./build/cache/electron-v1.2.7-win32-x64.zip
+  - curl -L https://github.com/electron/electron/releases/download/v1.2.7/electron-v1.2.7-linux-ia32.zip > ./build/cache/electron-v1.2.7-linux-ia32.zip
+  - curl -L https://github.com/electron/electron/releases/download/v1.2.7/electron-v1.2.7-linux-x64.zip > ./build/cache/electron-v1.2.7-linux-x64.zip
+  # electron-builder (github.com/electron-userland/electron-builder/wiki/multi-platform-build#macos)
+  - brew install Caskroom/cask/xquartz wine mono; brew info Caskroom/cask/xquartz wine mono
+  - brew install gnu-tar libicns graphicsmagick xz; brew info gnu-tar libicns graphicsmagick xz
+  # electron-installer-debian (github.com/unindented/electron-installer-debian#requirements)
+  - brew install fakeroot dpkg; brew info fakeroot dpkg
+  # print
+  - fakeroot -v
+  - dpkg --version
+
+install:
+  - export PATH=~/bin:$PATH
+  - curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.1/install.sh | NVM_DIR=$HOME/.nvm sh
+  - source $HOME/.nvm/nvm.sh
+  - command -v nvm
+  - nvm install 6.3.0
+  - nvm use 6.3.0
+
+before_script:
+  - npm prune
+  - npm install
+
+script:
+  - npm run-script build
+  - npm run-script changelog commit --verbose
+  - npm run-script publish:github   --verbose
+
+notifications:
+  webhooks:
+    on_success: always
+    on_failure: always
+    on_start: always
